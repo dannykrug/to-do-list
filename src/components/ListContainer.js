@@ -5,7 +5,10 @@ const URL = 'http://localhost:3000/tasks';
 export default class ListContainer extends Component {
 
   state = {
-    tasks: []
+    tasks: [],
+    name: '',
+    description: '',
+    completed: false
   }
 
   fetchList = () => {
@@ -14,6 +17,10 @@ export default class ListContainer extends Component {
     .then(res => this.setState({
       tasks: res
     }))
+  }
+
+  createTask = () => {
+    console.log('task')
   }
 
   componentDidMount() {
@@ -25,6 +32,19 @@ export default class ListContainer extends Component {
     return(
       <div>
         <MainList tasks={this.state.tasks}/>
+        <form>
+          <div>
+            <label>Task:</label>
+            <input type='text' name='name' placeholder='Name of Task'/>
+          </div>
+          <div>
+            <label>Description:</label>
+            <input type='text' name='name' placeholder='Describe the Task'/>
+          </div>
+          <div>
+            <input type='submit' value='Add It To The List'/>
+          </div>
+        </form>
       </div>
     )
   }
