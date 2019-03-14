@@ -19,8 +19,29 @@ export default class ListContainer extends Component {
     }))
   }
 
-  createTask = () => {
-    console.log('task')
+  changeHandler = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  createTask = (e) => {
+    e.preventDefault()
+
+    const name = this.state.name
+    const description = this.state.description
+    const completed = this.state.completed
+
+    let data = {name, description, completed}
+
+    fetch(URL, {
+      method:"POST",
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
   }
 
   componentDidMount() {
@@ -28,18 +49,18 @@ export default class ListContainer extends Component {
   }
 
   render() {
-    console.log(this.state, "state");
+    console.log(this.state.name, "state");
     return(
       <div>
         <MainList tasks={this.state.tasks}/>
-        <form>
+        <form onSubmit={this.createTask}>
           <div>
             <label>Task:</label>
-            <input type='text' name='name' placeholder='Name of Task'/>
+            <input type='text' name='name' placeholder='Name of Task' onChange={this.changeHandler}/>
           </div>
           <div>
             <label>Description:</label>
-            <input type='text' name='name' placeholder='Describe the Task'/>
+            <input type='text' name='description' placeholder='Describe the Task' onChange={this.changeHandler}/>
           </div>
           <div>
             <input type='submit' value='Add It To The List'/>
